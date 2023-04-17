@@ -1,0 +1,13 @@
+const ADDRESS = 'localhost';
+const USERNAME = 'root';
+const PASSWORD = '';
+const DATABASE = 'bus';
+const STD_TABLE = 'students';
+const DRIVER_TABLE = 'drivers';
+const BUS_TABLE = 'buses';
+const STATION_TABLE = 'stations';
+const STATION_TO_BUS_TABLE = 'stations_to_buses';
+const TICKET_TABLE = 'tickets';
+const CARD_READER_TABLE = 'card_readers';
+const ADMIN = 'admins'
+module.exports = {ADDRESS, USERNAME, PASSWORD, DATABASE};
