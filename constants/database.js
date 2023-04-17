@@ -2,12 +2,14 @@ const ADDRESS = 'localhost';
 const USERNAME = 'root';
 const PASSWORD = '';
 const DATABASE = 'bus';
-const STD_TABLE = 'students';
-const DRIVER_TABLE = 'drivers';
-const BUS_TABLE = 'buses';
-const STATION_TABLE = 'stations';
-const STATION_TO_BUS_TABLE = 'stations_to_buses';
-const TICKET_TABLE = 'tickets';
-const CARD_READER_TABLE = 'card_readers';
-const ADMIN = 'admins'
-module.exports = {ADDRESS, USERNAME, PASSWORD, DATABASE};
+const TABLE = {
+    std: "students",
+    driver: "drivers",
+    bus: "buses",
+    station: "stations",
+    station_to_bus: "stations_to_buses",
+    ticket: "tickets",
+    card_reader: "card_readers",
+    admin: "admins"
+}
+module.exports = {ADDRESS, USERNAME, PASSWORD, DATABASE, TABLE};
