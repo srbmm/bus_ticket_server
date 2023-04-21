@@ -1,4 +1,4 @@
-const ADDRESS = 'localhost';
+const HOST = 'localhost';
 const USERNAME = 'root';
 const PASSWORD = '';
 const DATABASE = 'bus';
@@ -12,4 +12,4 @@ const TABLE = {
     card_reader: "card_readers",
     admin: "admins"
 }
-module.exports = {ADDRESS, USERNAME, PASSWORD, DATABASE, TABLE};
+module.exports = {HOST, USERNAME, PASSWORD, DATABASE, TABLE};
