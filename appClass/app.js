@@ -26,14 +26,14 @@ class App {
             })
             // edit
             .put((req, res) => {
-                table.get((err, query) => {
+                table.edit((err, query) => {
                     if (!err) res.status(200).send(query)
                     else res.status(404).send("err")
-                }, edit.join(" AND "))
+                }, edit.join(" AND "), req.body)
             })
             // delete
             .delete((req, res) => {
-                table.get((err, query) => {
+                table.remove((err, query) => {
                     if (!err) res.status(200).send(query)
                     else res.status(404).send("err")
                 }, remove.join(" AND "))
