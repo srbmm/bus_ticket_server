@@ -53,7 +53,7 @@ class App {
                     table.edit((err, query) => {
                         if (query) res.status(200).send('edited')
                         else res.status(404).send("err")
-                    }, req.body, `${id_name}="${req.params.id}"`)
+                    }, req.body, `${id_name}="${req.params.id}"`, req.body)
 
                 } else {
                     res.status(401).send("bad request")
