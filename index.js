@@ -1,9 +1,11 @@
 const express = require('express')
 const app = express()
 const App = require('./appClass/app')
+const cors = require('cors')
 const port = 3000
 const database = require('./database/connection')
 app.use(express.json())
+app.use(cors())
 const myApp = new App(app)
 
 // Admin
@@ -205,11 +207,17 @@ myApp.config("ticket", database.ticket, {
         remove(query) {
             const temp = []
             if(query.id) temp.push(`ticket_id=${query.id}`)
+            if(query.driver_id) temp.push(`driver_id=${query.driver_id}`)
+            if(query.bus_id) temp.push(`bus_id=${query.bus_id}`)
+            if(query.std_id) temp.push(`std_id=${query.std_id}`)
             return temp
         },
         edit(query) {
             const temp = []
             if(query.id) temp.push(`ticket_id=${query.id}`)
+            if(query.driver_id) temp.push(`driver_id=${query.driver_id}`)
+            if(query.bus_id) temp.push(`bus_id=${query.bus_id}`)
+            if(query.std_id) temp.push(`std_id=${query.std_id}`)
             return temp
         }
     }
