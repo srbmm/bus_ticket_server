@@ -29,7 +29,7 @@ class App {
                 table.edit((err, query) => {
                     if (!err) res.status(200).send(query)
                     else res.status(404).send("err")
-                }, edit.join(" AND "), req.body)
+                },  req.body ,edit.join(" AND "))
             })
             // delete
             .delete((req, res) => {
@@ -53,7 +53,7 @@ class App {
                     table.edit((err, query) => {
                         if (query) res.status(200).send('edited')
                         else res.status(404).send("err")
-                    }, req.body, `${id_name}="${req.params.id}"`, req.body)
+                    }, req.body, `${id_name}="${req.params.id}"`)
 
                 } else {
                     res.status(401).send("bad request")
