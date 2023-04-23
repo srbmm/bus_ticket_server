@@ -197,7 +197,7 @@ myApp.config("ticket", database.ticket, {
             if(query.bus_id) temp.push(`bus_id=${query.bus_id}`)
             if(query.std_id) temp.push(`std_id=${query.std_id}`)
             if(query.start_time) temp.push(`created_time>=${query.start_time}`)
-            if(query.end_time) temp.push(`created_time>=${query.end_time}`)
+            if(query.end_time) temp.push(`created_time<=${query.end_time}`)
             return temp
         },
         remove(query) {
@@ -207,7 +207,7 @@ myApp.config("ticket", database.ticket, {
             if(query.bus_id) temp.push(`bus_id=${query.bus_id}`)
             if(query.std_id) temp.push(`std_id=${query.std_id}`)
             if(query.start_time) temp.push(`created_time>=${query.start_time}`)
-            if(query.end_time) temp.push(`created_time>=${query.end_time}`)
+            if(query.end_time) temp.push(`created_time<=${query.end_time}`)
             return temp
         },
         edit(query) {
@@ -217,7 +217,7 @@ myApp.config("ticket", database.ticket, {
             if(query.bus_id) temp.push(`bus_id=${query.bus_id}`)
             if(query.std_id) temp.push(`std_id=${query.std_id}`)
             if(query.start_time) temp.push(`created_time>=${query.start_time}`)
-            if(query.end_time) temp.push(`created_time>=${query.end_time}`)
+            if(query.end_time) temp.push(`created_time<=${query.end_time}`)
             return temp
         }
     }
