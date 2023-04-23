@@ -85,7 +85,7 @@ myApp.config("bus", database.bus, {
             if(query.id) temp.push(`bus_id=${query.id}`)
             if(query.name) temp.push(`name='${query.name}'`)
             if(query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
-            if(query.is_active) temp.push(`balance>=${query.is_active}`)
+            if(query.is_active) temp.push(`is_active=${query.is_active}`)
             return temp
         },
         remove(query) {
@@ -93,7 +93,7 @@ myApp.config("bus", database.bus, {
             if(query.id) temp.push(`bus_id=${query.id}`)
             if(query.name) temp.push(`name='${query.name}'`)
             if(query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
-            if(query.is_active) temp.push(`balance>=${query.is_active}`)
+            if(query.is_active) temp.push(`is_active=${query.is_active}`)
             return temp
         },
         edit(query) {
@@ -101,7 +101,7 @@ myApp.config("bus", database.bus, {
             if(query.id) temp.push(`bus_id=${query.id}`)
             if(query.name) temp.push(`name='${query.name}'`)
             if(query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
-            if(query.is_active) temp.push(`balance>=${query.is_active}`)
+            if(query.is_active) temp.push(`is_active=${query.is_active}`)
             return temp
         }
     }
