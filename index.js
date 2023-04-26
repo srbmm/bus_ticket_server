@@ -238,7 +238,7 @@ app.post("/board", (req, res) => {
                                         if(res){
                                             database.ticket.add((res)=>{
                                                 if (res) res.status(200).send(true)
-                                                else res.status(404).send("error")
+                                                else res.status(400).send("error")
                                             },{
                                                 created_time: Math.round(+new Date()),
                                                 bus_id: rowCardReader[0].bus_id,
@@ -247,20 +247,20 @@ app.post("/board", (req, res) => {
                                                 price: rowCardReader[0].price
                                             })
                                         }
-                                        else res.status(404).send("error")
+                                        else res.status(400).send("error")
                                     }, {balance: +row[0].balance - req.body.price}, `std_id=${row[0].std_id}`)
-                                }else res.status(404).send("error")
+                                }else res.status(400).send("error")
                             }, `bus_id=${rowCardReader[0].bus_id}`)
                         }else {
-                            res.status(404).send("error")
+                            res.status(400).send("error")
                         }
                     }
-                    else res.status(404).send("error")
+                    else res.status(400).send("error")
                 }, `std_number=${req.body.std_number}`)
-        }else res.status(404).send("error")
+        }else res.status(400).send("error")
         }, `card_reader_id=${req.body.card_reader_id}`)
     }else{
-        res.status(404).send("error")
+        res.status(400).send("error")
     }
 })
 
