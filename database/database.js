@@ -10,7 +10,11 @@ class Database {
             database: database
         })
     }
-
+    customQuery(query, after) {
+        this.connection.query(query, function (err,res){
+           after(err, res)
+        })
+    }
     addTable(name, sqlName) {
         this[name] = new Table(sqlName, this)
     }
@@ -21,9 +25,7 @@ class Table {
         this.database = database
         this.tableName = tableName
     }
-
     get(after, condition = "", choices = "*") {
-        console.log(`SELECT ${choices} FROM ${this.tableName}${condition ? " WHERE " + condition : ""};`)
         const connection = this.database.connection
         connection.query(`SELECT ${choices} FROM ${this.tableName}${condition ? " WHERE " + condition : ""};`, function (err, result) {
             after(err, result)
@@ -51,7 +53,6 @@ class Table {
             counter += 1
         }
         const connection = this.database.connection
-        console.log(`INSERT INTO ${this.tableName} (${colNames}) VALUES (${values});`)
         connection.query(`INSERT INTO ${this.tableName} (${colNames}) VALUES (${values});`, function (err, result) {
             after(err, result)
         })
