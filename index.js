@@ -227,28 +227,28 @@ myApp.config("ticket", database.ticket, {
 // for ticket adding board
 app.post("/board", (req, res) => {
     if(req.body.std_number && req.body.card_reader_id){
-        database.card_reader.get((rowCardReader)=>{
+        database.card_reader.get((err,rowCardReader)=>{
             if(rowCardReader.length){
-                database.std.get((row) => {
+                database.std.get((err,row) => {
                     if (row.length){
-                        if(+row[0].balance > rowCardReader[0].price){
-                            database.bus.get((rowBus)=>{
+                        if(row[0].balance >= rowCardReader[0].ticket_price){
+                            database.bus.get((err, rowBus)=>{
                                 if(rowBus.length){
-                                    database.std.edit((res) => {
-                                        if(res){
-                                            database.ticket.add((res)=>{
-                                                if (res) res.status(200).send(true)
+                                    database.std.edit((err,resEdit) => {
+                                        if(resEdit){
+                                            database.ticket.add((err,resAdd)=>{
+                                                if (resAdd) res.status(200).send(true)
                                                 else res.status(400).send("error")
                                             },{
-                                                created_time: Math.round(+new Date()),
                                                 bus_id: rowCardReader[0].bus_id,
                                                 driver_id: rowBus[0].driver_id,
                                                 std_id: row[0].std_id,
-                                                price: rowCardReader[0].price
+                                                price: rowCardReader[0].ticket_price,
+                                                created_time: `${Math.round(+new Date())}`
                                             })
                                         }
                                         else res.status(400).send("error")
-                                    }, {balance: +row[0].balance - req.body.price}, `std_id=${row[0].std_id}`)
+                                    }, {balance: row[0].balance - rowCardReader[0].ticket_price}, `std_id=${row[0].std_id}`)
                                 }else res.status(400).send("error")
                             }, `bus_id=${rowCardReader[0].bus_id}`)
                         }else {
@@ -256,7 +256,7 @@ app.post("/board", (req, res) => {
                         }
                     }
                     else res.status(400).send("error")
-                }, `std_number=${req.body.std_number}`)
+                }, `std_number="${req.body.std_number}"`)
         }else res.status(400).send("error")
         }, `card_reader_id=${req.body.card_reader_id}`)
     }else{

@@ -3,6 +3,6 @@ const {HOST, USERNAME, PASSWORD, DATABASE, TABLE} = require('./../constants/data
 const database = new Database(HOST, USERNAME, PASSWORD, DATABASE);
 database.connection.connect()
 for (let key in TABLE){
-    database.addTable(key, value)
+    database.addTable(key, TABLE[key]);
 }
 module.exports = database
