@@ -224,6 +224,45 @@ myApp.config("ticket", database.ticket, {
 })
 
 
+// for ticket adding board
+app.post("/board", (req, res) => {
+    if(req.body.std_number && req.body.card_reader_id){
+        database.card_reader.get((rowCardReader)=>{
+            if(rowCardReader.length){
+                database.std.get((row) => {
+                    if (row.length){
+                        if(+row[0].balance > rowCardReader[0].price){
+                            database.bus.get((rowBus)=>{
+                                if(rowBus.length){
+                                    database.std.edit((res) => {
+                                        if(res){
+                                            database.ticket.add((res)=>{
+                                                if (res) res.status(200).send(true)
+                                                else res.status(404).send("error")
+                                            },{
+                                                created_time: Math.round(+new Date()),
+                                                bus_id: rowCardReader[0].bus_id,
+                                                driver_id: rowBus[0].driver_id,
+                                                std_id: row[0].std_id,
+                                                price: rowCardReader[0].price
+                                            })
+                                        }
+                                        else res.status(404).send("error")
+                                    }, {balance: +row[0].balance - req.body.price}, `std_id=${row[0].std_id}`)
+                                }else res.status(404).send("error")
+                            }, `bus_id=${rowCardReader[0].bus_id}`)
+                        }else {
+                            res.status(404).send("error")
+                        }
+                    }
+                    else res.status(404).send("error")
+                }, `std_number=${req.body.std_number}`)
+        }else res.status(404).send("error")
+        }, `card_reader_id=${req.body.card_reader_id}`)
+    }else{
+        res.status(404).send("error")
+    }
+})
 
 app.listen(port, () => {
     console.log(`Bus API listening on port ${port}`)
