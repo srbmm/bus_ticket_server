@@ -4,8 +4,11 @@ class App {
     constructor(app) {
         this.app = app;
         this.routes = [];
-        this.app.get('/', (req, res) => {res.status(200).send(this.routes.map(item => `<a href="${item}" style="font-size: 1.5em">${item}</a>`).join("<br />"))})
+        this.app.get('/', (req, res) => {
+            res.status(200).send(this.routes.map(item => `<a href="${item}" style="font-size: 1.5em">${item}</a>`).join("<br />"))
+        })
     }
+
     all(route, table, {get = () => [], edit = () => [], remove = () => []}) {
         this.app.route(route)
             // post
@@ -19,17 +22,31 @@ class App {
             })
             // get
             .get((req, res) => {
-                table.get((err, query) => {
-                    if (!err) res.status(200).send(query)
-                    else res.status(404).send("err")
-                }, get(req.query).join(" AND "))
+                table.get((err, query, countAll) => {
+                    if (countAll)
+                    {
+                        if(!err) res.status(200).send({countAll, query})
+                        else res.status(404).send("err")
+                    }
+                    else {
+                        if (!err) res.status(200).send(query)
+                        else res.status(404).send("err")
+                    }
+
+                    try {
+                        req.query.page = Number(req.query.page)
+                        req.query.count = Number(req.query.count)
+                    } catch (e) {
+                        console.log(e)
+                    }
+                }, get(req.query).join(" AND "), "*", req.query.page, req.query.count)
             })
             // edit
             .put((req, res) => {
                 table.edit((err, query) => {
                     if (!err) res.status(200).send(query)
                     else res.status(404).send("err")
-                },  req.body ,edit.join(" AND "))
+                }, req.body, edit.join(" AND "))
             })
             // delete
             .delete((req, res) => {
@@ -39,6 +56,7 @@ class App {
                 }, remove.join(" AND "))
             })
     }
+
     one(route, table, id_name) {
         this.app.route(route)
             .get((req, res) => {
@@ -71,6 +89,7 @@ class App {
                 }
             })
     }
+
     login(route, table, username_col) {
         this.app.post(route, (req, res) => {
             if (req.body.username && req.body.password) {
@@ -84,15 +103,19 @@ class App {
         })
     }
 
-    config(route, table,{conditions = {get: () => [], edit: () => [], remove: () => []}, id_name = "", username_col = ""}) {
+    config(route, table, {
+        conditions = {get: () => [], edit: () => [], remove: () => []},
+        id_name = "",
+        username_col = ""
+    }) {
         if (!this.routes.includes(route)) {
             this.routes.push(route)
             route = "/" + route
             this.all(route, table, conditions)
-            if (id_name){
+            if (id_name) {
                 this.one(`${route}/:id`, table, id_name)
             }
-            if (username_col){
+            if (username_col) {
                 this.login(`${route}/login`, table, username_col)
             }
         } else throw new Error("Route added before")

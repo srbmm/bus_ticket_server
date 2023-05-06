@@ -10,11 +10,13 @@ class Database {
             database: database
         })
     }
+
     customQuery(query, after) {
-        this.connection.query(query, function (err,res){
-           after(err, res)
+        this.connection.query(query, function (err, res) {
+            after(err, res)
         })
     }
+
     addTable(name, sqlName) {
         this[name] = new Table(sqlName, this)
     }
@@ -25,11 +27,23 @@ class Table {
         this.database = database
         this.tableName = tableName
     }
-    get(after, condition = "", choices = "*") {
-        const connection = this.database.connection
-        connection.query(`SELECT ${choices} FROM ${this.tableName}${condition ? " WHERE " + condition : ""};`, function (err, result) {
-            after(err, result)
-        })
+
+    get(after, condition = "", choices = "*", page = 0, count = 10) {
+        const connection = this.database.connection;
+        if(page){
+            const tableName = this.tableName
+            connection.query(`SELECT COUNT(*) FROM ${tableName}${condition ? " WHERE " + condition : ""}`, function (err, countAll){
+                const SQL = `SELECT ${choices} FROM ${tableName}${condition ? " WHERE " + condition : ""} LIMIT ${count} OFFSET ${(page-1)*count};`
+                connection.query(SQL, function (err, result) {
+                    after(err, result, countAll[0]['COUNT(*)'])
+                })
+            })
+
+        }else{
+            connection.query(`SELECT ${choices} FROM ${this.tableName}${condition ? " WHERE " + condition : ""};`, function (err, result) {
+                after(err, result)
+            })
+        }
     }
 
     add(after, data) {
@@ -76,8 +90,8 @@ class Table {
                 }
                 counter += 1
             }
-            const connection = this.database.connection
-            connection.query(`UPDATE ${this.tableName} SET ${data_str} WHERE ${conditions};`, function (err, result) {
+            const connection = this.database.connection;
+            connection.query(`UPDATE ${this.tableName} SET ${data_str} WHERE ${conditions} ${paging};`, function (err, result) {
                 after(err, result)
             })
         } else {
