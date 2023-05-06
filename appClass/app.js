@@ -8,7 +8,6 @@ class App {
             res.status(200).send(this.routes.map(item => `<a href="${item}" style="font-size: 1.5em">${item}</a>`).join("<br />"))
         })
     }
-
     all(route, table, {get = () => [], edit = () => [], remove = () => []}) {
         this.app.route(route)
             // post
@@ -39,7 +38,10 @@ class App {
                     } catch (e) {
                         console.log(e)
                     }
-                }, get(req.query).join(" AND "), "*", req.query.page, req.query.count)
+                    if (!req.query.order_by) req.query.order_by = ""
+                    if (!req.query.reverse) req.query.limit = "ASC"
+
+                }, get(req.query).join(" AND "), "*", req.query.page, req.query.count, req.query.order_by, req.query.reverse)
             })
             // edit
             .put((req, res) => {

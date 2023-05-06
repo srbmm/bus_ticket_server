@@ -28,19 +28,20 @@ class Table {
         this.tableName = tableName
     }
 
-    get(after, condition = "", choices = "*", page = 0, count = 10) {
+    get(after, condition = "", choices = "*", page = 0, count = 10,  order_by = "", reverse = "ASC") {
         const connection = this.database.connection;
         if(page){
             const tableName = this.tableName
             connection.query(`SELECT COUNT(*) FROM ${tableName}${condition ? " WHERE " + condition : ""}`, function (err, countAll){
-                const SQL = `SELECT ${choices} FROM ${tableName}${condition ? " WHERE " + condition : ""} LIMIT ${count} OFFSET ${(page-1)*count};`
+                const SQL = `SELECT ${choices} FROM ${tableName}${condition ? " WHERE " + condition : ""} ${order_by ?" ORDER BY " + order_by + " " + reverse.toUpperCase() + " " : ""}LIMIT ${count} OFFSET ${(page-1)*count};`
+                console.log(SQL);
                 connection.query(SQL, function (err, result) {
                     after(err, result, countAll[0]['COUNT(*)'])
                 })
             })
 
         }else{
-            connection.query(`SELECT ${choices} FROM ${this.tableName}${condition ? " WHERE " + condition : ""};`, function (err, result) {
+            connection.query(`SELECT ${choices} FROM ${this.tableName}${condition ? " WHERE " + condition : ""}${order_by ?" ORDER BY " + order_by + " " + reverse.toUpperCase() + " " : ""};`, function (err, result) {
                 after(err, result)
             })
         }
