@@ -92,7 +92,7 @@ class Table {
                 counter += 1
             }
             const connection = this.database.connection;
-            connection.query(`UPDATE ${this.tableName} SET ${data_str} WHERE ${conditions} ${paging};`, function (err, result) {
+            connection.query(`UPDATE ${this.tableName} SET ${data_str} WHERE ${conditions};`, function (err, result) {
                 after(err, result)
             })
         } else {
