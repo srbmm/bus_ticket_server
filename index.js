@@ -9,10 +9,11 @@ app.use(cors())
 const myApp = new App(app)
 
 // Admin
-myApp.config("admin", database.admin, {id_name: "admin_id", username_col: "username"})
+myApp.config("admin", database.admin, {id_name: "admin_id", username_col: "username", choices: ["admin_id", "name", "username"]} )
 
 // Student
 myApp.config("student", database.std, {
+    choices: ["std_id", "first_name", "last_name", "balance"],
     id_name: "std_id", username_col: "std_id", conditions: {
         get(query) {
             const temp = []

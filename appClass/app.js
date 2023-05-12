@@ -8,7 +8,7 @@ class App {
             res.status(200).send(this.routes.map(item => `<a href="${item}" style="font-size: 1.5em">${item}</a>`).join("<br />"))
         })
     }
-    all(route, table, {get = () => [], edit = () => [], remove = () => []}) {
+    all(route, table, {get = () => [], edit = () => [], remove = () => []}, choices) {
         this.app.route(route)
             // post
             .post((req, res) => {
@@ -22,8 +22,7 @@ class App {
             // get
             .get((req, res) => {
                 table.get((err, query, countAll) => {
-                    if (countAll)
-                    {   if (query) query.password = undefined
+                    if (countAll) {
                         if(!err) res.status(200).send({countAll, query})
                         else res.status(404).send("err")
                     }
@@ -41,7 +40,7 @@ class App {
                     if (!req.query.order_by) req.query.order_by = ""
                     if (!req.query.reverse) req.query.limit = "ASC"
 
-                }, get(req.query).join(" AND "), "*", req.query.page, req.query.count, req.query.order_by, req.query.reverse)
+                }, get(req.query).join(" AND "), choices, req.query.page, req.query.count, req.query.order_by, req.query.reverse)
             })
             // edit
             .put((req, res) => {
@@ -59,13 +58,13 @@ class App {
             })
     }
 
-    one(route, table, id_name) {
+    one(route, table, id_name, choices) {
         this.app.route(route)
             .get((req, res) => {
                 table.get((err, query) => {
                     if (!err) res.status(200).send(query)
                     else res.status(404).send("err")
-                }, `${id_name}="${req.params.id}}"`)
+                }, `${id_name}="${req.params.id}}"`, choices)
             })
             // edit
             .put((req, res) => {
@@ -108,14 +107,17 @@ class App {
     config(route, table, {
         conditions = {get: () => [], edit: () => [], remove: () => []},
         id_name = "",
-        username_col = ""
+        username_col = "",
+        choices = []
     }) {
+        if (choices.length) choices = choices.join(",")
+        else choices = "*"
         if (!this.routes.includes(route)) {
             this.routes.push(route)
             route = "/" + route
-            this.all(route, table, conditions)
+            this.all(route, table, conditions, choices)
             if (id_name) {
-                this.one(`${route}/:id`, table, id_name)
+                this.one(`${route}/:id`, table, id_name, choices)
             }
             if (username_col) {
                 this.login(`${route}/login`, table, username_col)
