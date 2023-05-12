@@ -17,8 +17,7 @@ myApp.config("student", database.std, {
         get(query) {
             const temp = []
             if (query.id) temp.push(`std_id=${query.id}`)
-            if (query.like_number) temp.push(`std_number LIKE "%${query.like_number}%"`)
-            if (query.std_number) temp.push(`std_number='${query.std_number}'`)
+            if (query.like_number) temp.push(`std_id LIKE "%${query.like_number}%"`)
             if (query.minbalance) temp.push(`balance>=${query.minbalance}`)
             if (query.maxbalance) temp.push(`balance<=${query.maxbalance}`)
             return temp
@@ -26,8 +25,7 @@ myApp.config("student", database.std, {
         remove(query) {
             const temp = []
             if (query.id) temp.push(`std_id=${query.id}`)
-            if (query.like_number) temp.push(`std_number LIKE "%${query.like_number}%"`)
-            if (query.std_number) temp.push(`std_number='${query.std_number}'`)
+            if (query.like_number) temp.push(`std_id LIKE "%${query.like_number}%"`)
             if (query.minbalance) temp.push(`balance>=${query.minbalance}`)
             if (query.maxbalance) temp.push(`balance<=${query.maxbalance}`)
             return temp
@@ -35,41 +33,7 @@ myApp.config("student", database.std, {
         edit(query) {
             const temp = []
             if (query.id) temp.push(`std_id=${query.id}`)
-            if (query.like_number) temp.push(`std_number LIKE "%${query.like_number}%"`)
-            if (query.std_number) temp.push(`std_number='${query.std_number}'`)
-            if (query.minbalance) temp.push(`balance>=${query.minbalance}`)
-            if (query.maxbalance) temp.push(`balance<=${query.maxbalance}`)
-            return temp
-        }
-    }
-})
-
-// Driver
-myApp.config("driver", database.driver, {
-    id_name: "driver_id", username_col: "username", conditions: {
-        get(query) {
-            const temp = []
-            if (query.id) temp.push(`driver_id=${query.id}`)
-            if (query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
-            if (query.username) temp.push(`username='${query.username}'`)
-            if (query.minbalance) temp.push(`balance>=${query.minbalance}`)
-            if (query.maxbalance) temp.push(`balance<=${query.maxbalance}`)
-            return temp
-        },
-        remove(query) {
-            const temp = []
-            if (query.id) temp.push(`driver_id=${query.id}`)
-            if (query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
-            if (query.username) temp.push(`username='${query.username}'`)
-            if (query.minbalance) temp.push(`balance>=${query.minbalance}`)
-            if (query.maxbalance) temp.push(`balance<=${query.maxbalance}`)
-            return temp
-        },
-        edit(query) {
-            const temp = []
-            if (query.id) temp.push(`driver_id=${query.id}`)
-            if (query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
-            if (query.username) temp.push(`username='${query.username}'`)
+            if (query.like_number) temp.push(`std_id LIKE "%${query.like_number}%"`)
             if (query.minbalance) temp.push(`balance>=${query.minbalance}`)
             if (query.maxbalance) temp.push(`balance<=${query.maxbalance}`)
             return temp
@@ -113,19 +77,19 @@ myApp.config("card_reader", database.card_reader, {
         get(query) {
             const temp = []
             if (query.id) temp.push(`card_reader_id=${query.id}`)
-            if (query.driver_id) temp.push(`driver_id='${query.driver_id}'`)
+            if (query.bus_id) temp.push(`bus_id='${query.bus_id}'`)
             return temp
         },
         remove(query) {
             const temp = []
             if (query.id) temp.push(`card_reader_id=${query.id}`)
-            if (query.driver_id) temp.push(`driver_id='${query.driver_id}'`)
+            if (query.bus_id) temp.push(`bus_id='${query.bus_id}'`)
             return temp
         },
         edit(query) {
             const temp = []
             if (query.id) temp.push(`card_reader_id=${query.id}`)
-            if (query.driver_id) temp.push(`driver_id='${query.driver_id}'`)
+            if (query.bus_id) temp.push(`bus_id='${query.bus_id}'`)
             return temp
         }
     }
@@ -139,7 +103,6 @@ myApp.config("station", database.station, {
             if (query.id) temp.push(`station_id=${query.id}`)
             if (query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
             if (query.like_near) temp.push(`nearby_places LIKE "%${query.like_near}%"`)
-            if (query.bus_id) temp.push(`bus_id='${query.bus_id}'`)
             return temp
         },
         remove(query) {
@@ -147,14 +110,12 @@ myApp.config("station", database.station, {
             if (query.id) temp.push(`station_id=${query.id}`)
             if (query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
             if (query.like_near) temp.push(`nearby_places LIKE "%${query.like_near}%"`)
-            if (query.bus_id) temp.push(`bus_id='${query.bus_id}'`)
             return temp
         },
         edit(query) {
             const temp = []
             if (query.id) temp.push(`station_id=${query.id}`)
             if (query.like_near) temp.push(`nearby_places LIKE "%${query.like_near}%"`)
-            if (query.bus_id) temp.push(`bdriverus_id='${query.bus_id}'`)
             return temp
         }
     }
@@ -193,7 +154,6 @@ myApp.config("ticket", database.ticket, {
         get(query) {
             const temp = []
             if (query.id) temp.push(`ticket_id=${query.id}`)
-            if (query.driver_id) temp.push(`driver_id=${query.driver_id}`)
             if (query.bus_id) temp.push(`bus_id=${query.bus_id}`)
             if (query.std_id) temp.push(`std_id=${query.std_id}`)
             if (query.start_time) temp.push(`created_time>=${query.start_time}`)
@@ -203,7 +163,6 @@ myApp.config("ticket", database.ticket, {
         remove(query) {
             const temp = []
             if (query.id) temp.push(`ticket_id=${query.id}`)
-            if (query.driver_id) temp.push(`driver_id=${query.driver_id}`)
             if (query.bus_id) temp.push(`bus_id=${query.bus_id}`)
             if (query.std_id) temp.push(`std_id=${query.std_id}`)
             if (query.start_time) temp.push(`created_time>=${query.start_time}`)
@@ -213,7 +172,6 @@ myApp.config("ticket", database.ticket, {
         edit(query) {
             const temp = []
             if (query.id) temp.push(`ticket_id=${query.id}`)
-            if (query.driver_id) temp.push(`driver_id=${query.driver_id}`)
             if (query.bus_id) temp.push(`bus_id=${query.bus_id}`)
             if (query.std_id) temp.push(`std_id=${query.std_id}`)
             if (query.start_time) temp.push(`created_time>=${query.start_time}`)
@@ -226,8 +184,8 @@ myApp.config("ticket", database.ticket, {
 
 // for ticket adding board
 app.post("/board", (req, res) => {
-    if (req.body.std_number && req.body.card_reader_id) {
-        database.customQuery(`SELECT * FROM card_readers, drivers, buses WHERE card_readers.card_reader_id=${req.body.card_reader_id};`,
+    if (req.body.std_id && req.body.card_reader_id) {
+        database.customQuery(`SELECT * FROM card_readers, buses WHERE card_readers.card_reader_id=${req.body.card_reader_id};`,
             (err, rows) => {
                 if (rows.length) {
                     database.std.get((err, stdRow) => {
@@ -235,20 +193,15 @@ app.post("/board", (req, res) => {
                             if(stdRow[0].balance >= rows[0].ticket_price) {
                                 database.std.edit((err, resEdit) => {
                                     if (resEdit) {
-                                        database.driver.edit((err, resEdit) => {
-                                            if(resEdit) {
-                                                database.ticket.add((err, resAdd) => {
-                                                    if (resAdd) res.status(200).send(true)
-                                                    else res.status(400).send("error")
-                                                }, {
-                                                    bus_id: rows[0].bus_id,
-                                                    driver_id: rows[0].driver_id,
-                                                    std_id: stdRow[0].std_id,
-                                                    price: rows[0].ticket_price,
-                                                    created_time: `${Math.round(+new Date())}`
-                                                })
-                                            }else res.status(400).send("error")
-                                        }, {balance: rows[0].balance + rows[0].ticket_price},`driver_id=${rows[0].driver_id}`)
+                                        database.ticket.add((err, resAdd) => {
+                                            if (resAdd) res.status(200).send(true)
+                                            else res.status(400).send("error")
+                                        }, {
+                                            bus_id: rows[0].bus_id,
+                                            std_id: stdRow[0].std_id,
+                                            price: rows[0].ticket_price,
+                                            created_time: `${Math.round(+new Date())}`
+                                        })
                                     } else res.status(400).send("error")
                                 }, {balance: stdRow[0].balance - rows[0].ticket_price}, `std_id=${stdRow[0].std_id}`)
                             }else res.status(400).send("error")

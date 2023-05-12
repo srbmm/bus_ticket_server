@@ -4,7 +4,6 @@ const PASSWORD = '';
 const DATABASE = 'bus';
 const TABLE = {
     std: "students",
-    driver: "drivers",
     bus: "buses",
     station: "stations",
     station_to_bus: "stations_to_buses",

@@ -67,7 +67,7 @@ class Table {
             }
             counter += 1
         }
-        const connection = this.database.connection
+        const connection = this.database.connection;
         connection.query(`INSERT INTO ${this.tableName} (${colNames}) VALUES (${values});`, function (err, result) {
             after(err, result)
         })
@@ -92,6 +92,7 @@ class Table {
                 counter += 1
             }
             const connection = this.database.connection;
+            console.log(`UPDATE ${this.tableName} SET ${data_str} WHERE ${conditions};`)
             connection.query(`UPDATE ${this.tableName} SET ${data_str} WHERE ${conditions};`, function (err, result) {
                 after(err, result)
             })
