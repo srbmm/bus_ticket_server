@@ -95,7 +95,7 @@ class App {
         this.app.post(route, (req, res) => {
             if (req.body.username && req.body.password) {
                 table.get((err, rows) => {
-                    if (!err) {
+                    if (!err && rows.length) {
                         if (md5(req.body.password) === rows[0].password) res.status(200).send(true)
                         else res.status(201).send(false)
                     } else res.status(201).send(false)

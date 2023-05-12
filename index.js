@@ -2,7 +2,7 @@ const express = require('express')
 const App = require('./appClass/app')
 const cors = require('cors')
 const database = require('./database/connection')
-const port = 3000
+const port = 3001
 const app = express()
 app.use(express.json())
 app.use(cors())

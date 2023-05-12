@@ -31,7 +31,6 @@ class Table {
     get(after, condition = "", choices = "*", page = 0, count = 10,  order_by = "", reverse = "ASC") {
         const connection = this.database.connection;
         if(page){
-            console.log(choices)
             const tableName = this.tableName
             connection.query(`SELECT COUNT(*) FROM ${tableName}${condition ? " WHERE " + condition : ""}`, function (err, countAll){
                 const SQL = `SELECT ${choices} FROM ${tableName}${condition ? " WHERE " + condition : ""} ${order_by ?" ORDER BY " + order_by + " " + reverse.toUpperCase() + " " : ""}LIMIT ${count} OFFSET ${(page-1)*count};`
@@ -41,7 +40,8 @@ class Table {
             })
 
         }else{
-            connection.query(`SELECT ${choices} FROM ${this.tableName}${condition ? " WHERE " + condition : ""}${order_by ?" ORDER BY " + order_by + " " + reverse.toUpperCase() + " " : ""};`, function (err, result) {
+            const SQL = `SELECT ${choices} FROM ${this.tableName}${condition ? " WHERE " + condition : ""}${order_by ? " ORDER BY " + order_by + " " + reverse.toUpperCase() + " " : ""};`
+            connection.query(SQL, function (err, result) {
                 after(err, result)
             })
         }
