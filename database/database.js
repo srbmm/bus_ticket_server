@@ -31,9 +31,10 @@ class Table {
     get(after, condition = "", choices = "*", page = 0, count = 10,  order_by = "", reverse = "ASC") {
         const connection = this.database.connection;
         if(page){
+            console.log(choices)
             const tableName = this.tableName
             connection.query(`SELECT COUNT(*) FROM ${tableName}${condition ? " WHERE " + condition : ""}`, function (err, countAll){
-                const SQL = `SELECT ${choices} password FROM ${tableName}${condition ? " WHERE " + condition : ""} ${order_by ?" ORDER BY " + order_by + " " + reverse.toUpperCase() + " " : ""}LIMIT ${count} OFFSET ${(page-1)*count};`
+                const SQL = `SELECT ${choices} FROM ${tableName}${condition ? " WHERE " + condition : ""} ${order_by ?" ORDER BY " + order_by + " " + reverse.toUpperCase() + " " : ""}LIMIT ${count} OFFSET ${(page-1)*count};`
                 connection.query(SQL, function (err, result) {
                     after(err, result, countAll[0]['COUNT(*)'])
                 })
@@ -71,7 +72,6 @@ class Table {
             after(err, result)
         })
     }
-
     edit(after, data, conditions) {
         if (conditions) {
             let data_str = ""
@@ -91,7 +91,6 @@ class Table {
                 counter += 1
             }
             const connection = this.database.connection;
-            console.log(`UPDATE ${this.tableName} SET ${data_str} WHERE ${conditions};`)
             connection.query(`UPDATE ${this.tableName} SET ${data_str} WHERE ${conditions};`, function (err, result) {
                 after(err, result)
             })
