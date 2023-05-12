@@ -23,7 +23,7 @@ class App {
             .get((req, res) => {
                 table.get((err, query, countAll) => {
                     if (countAll)
-                    {
+                    {   if (query) query.password = undefined
                         if(!err) res.status(200).send({countAll, query})
                         else res.status(404).send("err")
                     }
