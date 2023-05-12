@@ -34,7 +34,6 @@ class Table {
             const tableName = this.tableName
             connection.query(`SELECT COUNT(*) FROM ${tableName}${condition ? " WHERE " + condition : ""}`, function (err, countAll){
                 const SQL = `SELECT ${choices} FROM ${tableName}${condition ? " WHERE " + condition : ""} ${order_by ?" ORDER BY " + order_by + " " + reverse.toUpperCase() + " " : ""}LIMIT ${count} OFFSET ${(page-1)*count};`
-                console.log(SQL)
                 connection.query(SQL, function (err, result) {
                     after(err, result, countAll[0]['COUNT(*)'])
                 })
@@ -69,12 +68,12 @@ class Table {
             counter += 1
         }
         const connection = this.database.connection;
-        connection.query(`INSERT INTO ${this.tableName} (${colNames}) VALUES (${values});`, function (err, result) {
+        const SQL = `INSERT INTO ${this.tableName} (${colNames}) VALUES (${values});`;
+        connection.query(SQL, function (err, result) {
             after(err, result)
         })
     }
     edit(after, data, conditions) {
-        if (conditions) {
             let data_str = ""
             let counter = 0
             const keys = Object.keys(data)
@@ -92,18 +91,17 @@ class Table {
                 counter += 1
             }
             const connection = this.database.connection;
-            connection.query(`UPDATE ${this.tableName} SET ${data_str} WHERE ${conditions};`, function (err, result) {
+            const SQL = `UPDATE ${this.tableName} SET ${data_str} ${conditions? "WHERE " + conditions: ""};`
+            connection.query(SQL, function (err, result) {
                 after(err, result)
             })
-        } else {
-            throw new Error('please add condition')
         }
-    }
 
     remove(after, condition) {
         if (condition) {
             const connection = this.database.connection
-            connection.query(`DELETE FROM ${this.tableName} WHERE ${condition};`, function (err, result) {
+            const SQL = `DELETE FROM ${this.tableName} WHERE ${condition};`
+            connection.query(SQL, function (err, result) {
                 after(err, result)
             })
         } else

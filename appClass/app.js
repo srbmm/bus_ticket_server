@@ -45,16 +45,16 @@ class App {
             // edit
             .put((req, res) => {
                 table.edit((err, query) => {
-                    if (!err) res.status(200).send(query)
+                    if (query) res.status(200).send('edited')
                     else res.status(404).send("err")
-                }, req.body, edit.join(" AND "))
+                }, req.body, edit(req.query).join(" AND "))
             })
             // delete
             .delete((req, res) => {
                 table.remove((err, query) => {
                     if (!err) res.status(200).send(query)
                     else res.status(404).send("err")
-                }, remove.join(" AND "))
+                }, remove(req.query).join(" AND "))
             })
     }
 
@@ -64,7 +64,7 @@ class App {
                 table.get((err, query) => {
                     if (!err) res.status(200).send(query)
                     else res.status(404).send("err")
-                }, `${id_name}="${req.params.id}}"`, choices)
+                }, `${id_name}="${req.params.id}"`, choices)
             })
             // edit
             .put((req, res) => {
