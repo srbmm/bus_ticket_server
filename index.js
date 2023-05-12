@@ -19,7 +19,7 @@ myApp.config("student", database.std, {
             const temp = []
             if (query.id) temp.push(`std_id=${query.id}`)
             if (query.like_number) temp.push(`std_id LIKE "%${query.like_number}%"`)
-            if (query.minbalance) temp.push(`balance>=${query.minbalance}`)
+            if (query.minbalacne) temp.push(`balance>=${query.minbalacne}`)
             if (query.maxbalance) temp.push(`balance<=${query.maxbalance}`)
             return temp
         },

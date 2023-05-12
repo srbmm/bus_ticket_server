@@ -34,6 +34,7 @@ class Table {
             const tableName = this.tableName
             connection.query(`SELECT COUNT(*) FROM ${tableName}${condition ? " WHERE " + condition : ""}`, function (err, countAll){
                 const SQL = `SELECT ${choices} FROM ${tableName}${condition ? " WHERE " + condition : ""} ${order_by ?" ORDER BY " + order_by + " " + reverse.toUpperCase() + " " : ""}LIMIT ${count} OFFSET ${(page-1)*count};`
+                console.log(SQL)
                 connection.query(SQL, function (err, result) {
                     after(err, result, countAll[0]['COUNT(*)'])
                 })
@@ -108,7 +109,7 @@ class Table {
         } else
             throw new Error("please add condition")
     }
-
+maxBalance
 }
 
 module.exports = Database
