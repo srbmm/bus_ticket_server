@@ -13,7 +13,7 @@ myApp.config("admin", database.admin, {id_name: "admin_id", username_col: "usern
 
 // Student
 myApp.config("student", database.std, {
-    id_name: "std_id", username_col: "std_number", conditions: {
+    id_name: "std_id", username_col: "std_id", conditions: {
         get(query) {
             const temp = []
             if (query.id) temp.push(`std_id=${query.id}`)
@@ -207,7 +207,7 @@ app.post("/board", (req, res) => {
                             }else res.status(400).send("error")
                         }
                         else res.status(400).send("error")
-                        }, `std_number="${req.body.std_number}"`)
+                        }, `std_id="${req.body.std_id}"`)
                 } else res.status(400).send("error")
             })
     } else {
