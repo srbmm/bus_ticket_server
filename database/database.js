@@ -113,8 +113,6 @@ class Table {
         } else
             throw new Error("please add condition")
     }
-
-    maxBalance
 }
 
 module.exports = Database

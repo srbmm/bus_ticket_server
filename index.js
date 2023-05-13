@@ -116,6 +116,7 @@ myApp.config("station", database.station, {
         edit(query) {
             const temp = []
             if (query.id) temp.push(`station_id=${query.id}`)
+            if (query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
             if (query.like_near) temp.push(`nearby_places LIKE "%${query.like_near}%"`)
             return temp
         }
