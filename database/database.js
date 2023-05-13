@@ -28,12 +28,16 @@ class Table {
         this.tableName = tableName
     }
 
-    get(after, condition = "", choices = "*", page = 0, count = 10, order_by = "", reverse = "ASC") {
+    get(after, condition = "", choices = "*", page = 0, count = 10, order_by = "", reverse = "ASC", anotherTable=[]) {
         const connection = this.database.connection;
+        let tableName = this.tableName
+        if(anotherTable.length) {
+            tableName += ", " + anotherTable.join(", ")
+            choices = "*"
+        }
         if (page) {
-            const tableName = this.tableName
-            connection.query(`SELECT COUNT(*) FROM ${tableName}${condition ? " WHERE " + condition : ""}`, function (err, countAll) {
-                const SQL = `SELECT ${choices} FROM ${tableName}${condition ? " WHERE " + condition : ""} ${order_by ?" ORDER BY " + order_by + " " + reverse.toUpperCase() + " " : ""}LIMIT ${count} OFFSET ${(page-1)*count};`
+            connection.query(`SELECT COUNT(*) FROM ${tableName} ${condition ? " WHERE " + condition : ""}`, function (err, countAll) {
+                const SQL = `SELECT ${choices} FROM ${tableName} ${condition ? " WHERE " + condition : ""} ${order_by ?" ORDER BY " + order_by + " " + reverse.toUpperCase() : ""} LIMIT ${count} OFFSET ${(page-1)*count};`
                 console.log(SQL)
                 connection.query(SQL, function (err, result) {
                     after(err, result, countAll[0]['COUNT(*)'])
@@ -41,7 +45,7 @@ class Table {
             })
 
         } else {
-            const SQL = `SELECT ${choices} FROM ${this.tableName}${condition ? " WHERE " + condition : ""}${order_by ? " ORDER BY " + order_by + " " + reverse.toUpperCase() + " " : ""};`
+            const SQL = `SELECT ${choices} FROM ${tableName}${condition ? " WHERE " + condition : ""}${order_by ? " ORDER BY " + order_by + " " + reverse.toUpperCase() + " " : ""};`
             console.log(SQL)
             connection.query(SQL, function (err, result) {
                 after(err, result)

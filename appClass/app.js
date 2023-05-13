@@ -1,5 +1,5 @@
 const md5 = require("md5");
-
+const {PRIMARY_KEY_TO_TABLE} = require('./../constants/database');
 class App {
     constructor(app) {
         this.app = app;
@@ -8,6 +8,7 @@ class App {
             res.status(200).send(this.routes.map(item => `<a href="${item}" style="font-size: 1.5em">${item}</a>`).join("<br />"))
         })
     }
+
     all(route, table, {get = () => [], edit = () => [], remove = () => []}, choices) {
         this.app.route(route)
             // post
@@ -21,12 +22,17 @@ class App {
             })
             // get
             .get((req, res) => {
+                const anotherTables = []
+                Object.keys(req.query).forEach(key => {
+                    if (req.query[key] === "true" && PRIMARY_KEY_TO_TABLE[key]) {
+                        anotherTables.push(PRIMARY_KEY_TO_TABLE[key])
+                    }
+                })
                 table.get((err, query, countAll) => {
                     if (countAll) {
-                        if(!err) res.status(200).send({countAll, query})
+                        if (!err) res.status(200).send({countAll, query})
                         else res.status(404).send("err")
-                    }
-                    else {
+                    } else {
                         if (!err) res.status(200).send(query)
                         else res.status(404).send("err")
                     }
@@ -40,7 +46,7 @@ class App {
                     if (!req.query.order_by) req.query.order_by = ""
                     if (!req.query.reverse) req.query.limit = "ASC"
 
-                }, get(req.query).join(" AND "), choices, req.query.page, req.query.count, req.query.order_by, req.query.reverse)
+                }, get(req.query).join(" AND "), choices, req.query.page, req.query.count, req.query.order_by, req.query.reverse, anotherTables)
             })
             // edit
             .put((req, res) => {

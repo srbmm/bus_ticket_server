@@ -11,4 +11,17 @@ const TABLE = {
     card_reader: "card_readers",
     admin: "admins"
 }
-module.exports = {HOST, USERNAME, PASSWORD, DATABASE, TABLE};
+const PRIMARY_KEY_TO_TABLE = {
+    std_id: "students",
+    bus_id: "buses",
+    station_id: "stations",
+    stations_to_buses: "stations_to_buses",
+    ticket_id: "tickets",
+    card_reader_id: "card_readers",
+    admin_id: "admins"
+}
+const CHOICES = {
+    admin: ["admin_id", "name", "username"],
+    student: ["std_id", "first_name", "last_name", "balance"]
+}
+module.exports = {HOST, USERNAME, PASSWORD, DATABASE, TABLE, PRIMARY_KEY_TO_TABLE, CHOICES};
