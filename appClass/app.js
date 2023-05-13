@@ -1,5 +1,5 @@
 const md5 = require("md5");
-const {PRIMARY_KEY_TO_TABLE} = require('./../constants/database');
+const {TABLE} = require("./../constants/database");
 class App {
     constructor(app) {
         this.app = app;
@@ -24,8 +24,8 @@ class App {
             .get((req, res) => {
                 const anotherTables = []
                 Object.keys(req.query).forEach(key => {
-                    if (req.query[key] === "true" && PRIMARY_KEY_TO_TABLE[key]) {
-                        anotherTables.push(PRIMARY_KEY_TO_TABLE[key])
+                    if (req.query[key] === "true" && TABLE[key]) {
+                        anotherTables.push(TABLE[key])
                     }
                 })
                 table.get((err, query, countAll) => {
