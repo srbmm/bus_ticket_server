@@ -15,4 +15,4 @@ const CHOICES = {
     admin: ["admin_id", "name", "username"],
     student: ["std_id", "first_name", "last_name", "balance"]
 }
-module.exports = {HOST, USERNAME, PASSWORD, DATABASE, TABLE, PRIMARY_KEY_TO_TABLE, CHOICES};
+module.exports = {HOST, USERNAME, PASSWORD, DATABASE, TABLE, CHOICES};
