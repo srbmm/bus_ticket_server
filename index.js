@@ -124,24 +124,24 @@ myApp.config("station", database.station, {
 
 // station to bus
 myApp.config("station_to_bus", database.station_to_bus, {
-    id_name: "station_to_bus_id", conditions: {
+    id_name: "stations_to_buses", conditions: {
         get(query) {
             const temp = []
-            if (query.id) temp.push(`station_to_bus_id=${query.id}`)
+            if (query.id) temp.push(`stations_to_buses=${query.id}`)
             if (query.bus_id) temp.push(`bus_id='${query.bus_id}'`)
             if (query.station_id) temp.push(`station_id='${query.station_id}'`)
             return temp
         },
         remove(query) {
             const temp = []
-            if (query.id) temp.push(`station_id=${query.id}`)
+            if (query.id) temp.push(`stations_to_buses=${query.id}`)
             if (query.bus_id) temp.push(`bus_id='${query.bus_id}'`)
             if (query.station_id) temp.push(`station_id='${query.station_id}'`)
             return temp
         },
         edit(query) {
             const temp = []
-            if (query.id) temp.push(`station_id=${query.id}`)
+            if (query.id) temp.push(`stations_to_buses=${query.id}`)
             if (query.bus_id) temp.push(`bus_id='${query.bus_id}'`)
             if (query.station_id) temp.push(`station_id='${query.station_id}'`)
             return temp
