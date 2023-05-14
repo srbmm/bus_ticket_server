@@ -197,6 +197,7 @@ app.post("/board", (req, res) => {
         database.card_reader.get((err, rows) => {
             if (rows === undefined) rows = [];
             if (rows.length) {
+                console.log(rows[0])
                 if (rows[0].isActive) {
                     database.std.get((err, stdRow) => {
                         if(stdRow.length) {
