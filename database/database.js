@@ -31,7 +31,7 @@ class Table {
     get(after, condition = [], choices = "*", page = 0, count = 10, order_by = "", reverse = "ASC", anotherTable=[]) {
         const connection = this.database.connection;
         const tableName = this.tableName
-        condition = condition.join(" AND ");
+        if(typeof condition !== "string") condition = condition.join(" AND ");
         let innerJoin = "";
         if(anotherTable.length) {
             innerJoin += anotherTable.map(name => `INNER JOIN ${name} ON ${tableName + "." + TABLE_TO_PRIMARY_KEY[name]}=${name + "." + TABLE_TO_PRIMARY_KEY[name]}`).join(" ")
@@ -86,6 +86,7 @@ class Table {
     edit(after, data, conditions) {
         let data_str = ""
         let counter = 0
+        if(typeof conditions !== "string") condition = conditions.join(" AND ");
         const keys = Object.keys(data)
         for (let key of keys) {
             if (typeof data[key] === "string" && key !== 'password') {
@@ -109,6 +110,7 @@ class Table {
     }
 
     remove(after, condition) {
+        if(typeof condition !== "string") condition = condition.join(" AND ");
         if (condition) {
             const connection = this.database.connection
             const SQL = `DELETE FROM ${this.tableName} WHERE ${condition};`
