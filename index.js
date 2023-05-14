@@ -206,24 +206,24 @@ app.post("/board", (req, res) => {
                                         if (resEdit) {
                                             database.ticket.add((err, resAdd) => {
                                                 if (resAdd) res.status(200).send(true)
-                                                else res.status(400).send("error")
+                                                else res.status(400).send("add error")
                                             }, {
                                                 bus_id: rows[0].bus_id,
                                                 std_id: stdRow[0].std_id,
                                                 price: rows[0].ticket_price,
                                                 created_time: `${Math.round(+new Date())}`
                                             })
-                                        } else res.status(400).send("error")
+                                        } else res.status(400).send("edit error")
                                     }, {balance: stdRow[0].balance - rows[0].ticket_price}, `std_id=${stdRow[0].std_id}`)
                                 }catch (e){
-                                    res.status(400).send("error")
+                                    res.status(400).send("catch error")
                                 }
                             }else res.status(200).send(false)
                         }
-                        else res.status(400).send("error")
+                        else res.status(400).send("no students")
                     }, `std_id="${req.body.std_id}"`)
-                }else res.status(400).send("error")
-            } else res.status(400).send("error")
+                }else res.status(400).send("bus not active")
+            } else res.status(400).send("card reader not found")
         } ,[`${TABLE_TO_PRIMARY_KEY.card_readers}=${req.body.card_reader_id}`] ,"*" ,0 , 10,  "", "ASC", [TABLE.bus])
     } else {
         res.status(400).send("error")
