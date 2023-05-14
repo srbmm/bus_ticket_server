@@ -28,8 +28,9 @@ class Table {
         this.tableName = tableName
     }
 
-    get(after, condition = "", choices = "*", page = 0, count = 10, order_by = "", reverse = "ASC", anotherTable=[]) {
+    get(after, condition = [], choices = "*", page = 0, count = 10, order_by = "", reverse = "ASC", anotherTable=[]) {
         const connection = this.database.connection;
+        condition = condition.map(item => `${this.tableName}.${item}`).join(" AND ");
         let innerJoin = "";
         if(anotherTable.length) {
             innerJoin += anotherTable.map(name => `INNER JOIN ${name} ON ${this.tableName + "." + TABLE_TO_PRIMARY_KEY[name]}=${name + "." + TABLE_TO_PRIMARY_KEY[name]}`).join(" ")

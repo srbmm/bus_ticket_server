@@ -46,7 +46,7 @@ class App {
                     if (!req.query.order_by) req.query.order_by = ""
                     if (!req.query.reverse) req.query.limit = "ASC"
 
-                }, get(req.query).join(" AND "), choices, req.query.page, req.query.count, req.query.order_by, req.query.reverse, anotherTables)
+                }, get(req.query), choices, req.query.page, req.query.count, req.query.order_by, req.query.reverse, anotherTables)
             })
             // edit
             .put((req, res) => {
