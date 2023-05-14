@@ -218,7 +218,7 @@ app.post("/board", (req, res) => {
                                 }catch (e){
                                     res.status(400).send("error")
                                 }
-                            }else res.status(400).send("error")
+                            }else res.status(200).send(false)
                         }
                         else res.status(400).send("error")
                     }, `std_id="${req.body.std_id}"`)
