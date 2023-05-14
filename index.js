@@ -194,7 +194,7 @@ myApp.config("ticket", database.ticket, {
 // for ticket adding board
 app.post("/board", (req, res) => {
     if (req.body.std_id && req.body.card_reader_id) {
-        database.card_reader(after = (err, rows) => {
+        database.card_reader.get(after = (err, rows) => {
             if (rows.length) {
                 if (rows[0].isActive) {
                     database.std.get((err, stdRow) => {
