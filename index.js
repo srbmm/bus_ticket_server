@@ -18,26 +18,26 @@ myApp.config("student", database.std, {
     id_name: "std_id", username_col: "std_id", conditions: {
         get(query) {
             const temp = []
-            if (query.id) temp.push(`${TABLE.student}.std_id=${query.id}`)
-            if (query.like_number) temp.push(`${TABLE.student}.std_id LIKE "%${query.like_number}%"`)
-            if (query.minbalacne) temp.push(`${TABLE.student}.balance>=${query.minbalacne}`)
-            if (query.maxbalance) temp.push(`${TABLE.student}.balance<=${query.maxbalance}`)
+            if (query.id) temp.push(`${TABLE.std}.std_id=${query.id}`)
+            if (query.like_number) temp.push(`${TABLE.std}.std_id LIKE "%${query.like_number}%"`)
+            if (query.minbalacne) temp.push(`${TABLE.std}.balance>=${query.minbalacne}`)
+            if (query.maxbalance) temp.push(`${TABLE.std}.balance<=${query.maxbalance}`)
             return temp
         },
         remove(query) {
             const temp = []
-            if (query.id) temp.push(`${TABLE.student}.std_id=${query.id}`)
-            if (query.like_number) temp.push(`${TABLE.student}.std_id LIKE "%${query.like_number}%"`)
-            if (query.minbalance) temp.push(`${TABLE.student}.balance>=${query.minbalance}`)
-            if (query.maxbalance) temp.push(`${TABLE.student}.balance<=${query.maxbalance}`)
+            if (query.id) temp.push(`${TABLE.std}.std_id=${query.id}`)
+            if (query.like_number) temp.push(`${TABLE.std}.std_id LIKE "%${query.like_number}%"`)
+            if (query.minbalacne) temp.push(`${TABLE.std}.balance>=${query.minbalacne}`)
+            if (query.maxbalance) temp.push(`${TABLE.std}.balance<=${query.maxbalance}`)
             return temp
         },
         edit(query) {
             const temp = []
-            if (query.id) temp.push(`${TABLE.student}.std_id=${query.id}`)
-            if (query.like_number) temp.push(`${TABLE.student}.std_id LIKE "%${query.like_number}%"`)
-            if (query.minbalance) temp.push(`${TABLE.student}.balance>=${query.minbalance}`)
-            if (query.maxbalance) temp.push(`${TABLE.student}.balance<=${query.maxbalance}`)
+            if (query.id) temp.push(`${TABLE.std}.std_id=${query.id}`)
+            if (query.like_number) temp.push(`${TABLE.std}.std_id LIKE "%${query.like_number}%"`)
+            if (query.minbalacne) temp.push(`${TABLE.std}.balance>=${query.minbalacne}`)
+            if (query.maxbalance) temp.push(`${TABLE.std}.balance<=${query.maxbalance}`)
             return temp
         }
     }
