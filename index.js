@@ -198,7 +198,7 @@ app.post("/board", (req, res) => {
             if (rows === undefined) rows = [];
             if (rows.length) {
                 console.log(rows[0])
-                if (rows[0].isActive) {
+                if (rows[0].is_active) {
                     database.std.get((err, stdRow) => {
                         if(stdRow.length) {
                             if(stdRow[0].balance >= rows[0].ticket_price) {
