@@ -2,7 +2,7 @@ const express = require('express')
 const App = require('./appClass/app')
 const cors = require('cors')
 const database = require('./database/connection')
-const {CHOICES} = require('./constants/database');
+const {TABLE, CHOICES} = require('./constants/database');
 const port = 3001
 const app = express()
 app.use(express.json())
@@ -18,26 +18,26 @@ myApp.config("student", database.std, {
     id_name: "std_id", username_col: "std_id", conditions: {
         get(query) {
             const temp = []
-            if (query.id) temp.push(`std_id=${query.id}`)
-            if (query.like_number) temp.push(`std_id LIKE "%${query.like_number}%"`)
-            if (query.minbalacne) temp.push(`balance>=${query.minbalacne}`)
-            if (query.maxbalance) temp.push(`balance<=${query.maxbalance}`)
+            if (query.id) temp.push(`${TABLE.student}.std_id=${query.id}`)
+            if (query.like_number) temp.push(`${TABLE.student}.std_id LIKE "%${query.like_number}%"`)
+            if (query.minbalacne) temp.push(`${TABLE.student}.balance>=${query.minbalacne}`)
+            if (query.maxbalance) temp.push(`${TABLE.student}.balance<=${query.maxbalance}`)
             return temp
         },
         remove(query) {
             const temp = []
-            if (query.id) temp.push(`std_id=${query.id}`)
-            if (query.like_number) temp.push(`std_id LIKE "%${query.like_number}%"`)
-            if (query.minbalance) temp.push(`balance>=${query.minbalance}`)
-            if (query.maxbalance) temp.push(`balance<=${query.maxbalance}`)
+            if (query.id) temp.push(`${TABLE.student}.std_id=${query.id}`)
+            if (query.like_number) temp.push(`${TABLE.student}.std_id LIKE "%${query.like_number}%"`)
+            if (query.minbalance) temp.push(`${TABLE.student}.balance>=${query.minbalance}`)
+            if (query.maxbalance) temp.push(`${TABLE.student}.balance<=${query.maxbalance}`)
             return temp
         },
         edit(query) {
             const temp = []
-            if (query.id) temp.push(`std_id=${query.id}`)
-            if (query.like_number) temp.push(`std_id LIKE "%${query.like_number}%"`)
-            if (query.minbalance) temp.push(`balance>=${query.minbalance}`)
-            if (query.maxbalance) temp.push(`balance<=${query.maxbalance}`)
+            if (query.id) temp.push(`${TABLE.student}.std_id=${query.id}`)
+            if (query.like_number) temp.push(`${TABLE.student}.std_id LIKE "%${query.like_number}%"`)
+            if (query.minbalance) temp.push(`${TABLE.student}.balance>=${query.minbalance}`)
+            if (query.maxbalance) temp.push(`${TABLE.student}.balance<=${query.maxbalance}`)
             return temp
         }
     }
@@ -48,26 +48,26 @@ myApp.config("bus", database.bus, {
     id_name: "bus_id", conditions: {
         get(query) {
             const temp = []
-            if (query.id) temp.push(`bus_id=${query.id}`)
-            if (query.name) temp.push(`name='${query.name}'`)
-            if (query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
-            if (query.is_active) temp.push(`is_active=${query.is_active}`)
+            if (query.id) temp.push(`${TABLE.bus}.bus_id=${query.id}`)
+            if (query.name) temp.push(`${TABLE.bus}.bus_name='${query.name}'`)
+            if (query.like_name) temp.push(`${TABLE.bus}.bus_name LIKE "%${query.like_name}%"`)
+            if (query.is_active) temp.push(`${TABLE.bus}.is_active=${query.is_active}`)
             return temp
         },
         remove(query) {
             const temp = []
-            if (query.id) temp.push(`bus_id=${query.id}`)
-            if (query.name) temp.push(`name='${query.name}'`)
-            if (query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
-            if (query.is_active) temp.push(`is_active=${query.is_active}`)
+            if (query.id) temp.push(`${TABLE.bus}.bus_id=${query.id}`)
+            if (query.name) temp.push(`${TABLE.bus}.bus_name='${query.name}'`)
+            if (query.like_name) temp.push(`${TABLE.bus}.bus_name LIKE "%${query.like_name}%"`)
+            if (query.is_active) temp.push(`${TABLE.bus}.is_active=${query.is_active}`)
             return temp
         },
         edit(query) {
             const temp = []
-            if (query.id) temp.push(`bus_id=${query.id}`)
-            if (query.name) temp.push(`name='${query.name}'`)
-            if (query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
-            if (query.is_active) temp.push(`is_active=${query.is_active}`)
+            if (query.id) temp.push(`${TABLE.bus}.bus_id=${query.id}`)
+            if (query.name) temp.push(`${TABLE.bus}.bus_name='${query.name}'`)
+            if (query.like_name) temp.push(`${TABLE.bus}.bus_name LIKE "%${query.like_name}%"`)
+            if (query.is_active) temp.push(`${TABLE.bus}.is_active=${query.is_active}`)
             return temp
         }
     }
@@ -78,20 +78,20 @@ myApp.config("card_reader", database.card_reader, {
     id_name: "card_reader_id", conditions: {
         get(query) {
             const temp = []
-            if (query.id) temp.push(`card_reader_id=${query.id}`)
-            if (query.bus_id && query.bus_id !== "true") temp.push(`bus_id='${query.bus_id}'`)
+            if (query.id) temp.push(`${TABLE.card_reader}.card_reader_id=${query.id}`)
+            if (query.bus_id && query.bus_id !== "true") temp.push(`${TABLE.card_reader}.bus_id='${query.bus_id}'`)
             return temp
         },
         remove(query) {
             const temp = []
-            if (query.id) temp.push(`card_reader_id=${query.id}`)
-            if (query.bus_id && query.bus_id !== "true") temp.push(`bus_id='${query.bus_id}'`)
+            if (query.id) temp.push(`${TABLE.card_reader}.card_reader_id=${query.id}`)
+            if (query.bus_id && query.bus_id !== "true") temp.push(`${TABLE.card_reader}.bus_id='${query.bus_id}'`)
             return temp
         },
         edit(query) {
             const temp = []
-            if (query.id) temp.push(`card_reader_id=${query.id}`)
-            if (query.bus_id && query.bus_id !== "true") temp.push(`bus_id='${query.bus_id}'`)
+            if (query.id) temp.push(`${TABLE.card_reader}.card_reader_id=${query.id}`)
+            if (query.bus_id) temp.push(`${TABLE.card_reader}.bus_id='${query.bus_id}'`)
             return temp
         }
     }
@@ -102,23 +102,23 @@ myApp.config("station", database.station, {
     id_name: "station_id", conditions: {
         get(query) {
             const temp = []
-            if (query.id) temp.push(`station_id=${query.id}`)
-            if (query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
-            if (query.like_near) temp.push(`nearby_places LIKE "%${query.like_near}%"`)
+            if (query.id) temp.push(`${TABLE.station}.station_id=${query.id}`)
+            if (query.like_name) temp.push(`${TABLE.station}.station_name LIKE "%${query.like_name}%"`)
+            if (query.like_near) temp.push(`${TABLE.station}.nearby_places LIKE "%${query.like_near}%"`)
             return temp
         },
         remove(query) {
             const temp = []
-            if (query.id) temp.push(`station_id=${query.id}`)
-            if (query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
-            if (query.like_near) temp.push(`nearby_places LIKE "%${query.like_near}%"`)
+            if (query.id) temp.push(`${TABLE.station}.station_id=${query.id}`)
+            if (query.like_name) temp.push(`${TABLE.station}.station_name LIKE "%${query.like_name}%"`)
+            if (query.like_near) temp.push(`${TABLE.station}.nearby_places LIKE "%${query.like_near}%"`)
             return temp
         },
         edit(query) {
             const temp = []
-            if (query.id) temp.push(`station_id=${query.id}`)
-            if (query.like_name) temp.push(`name LIKE "%${query.like_name}%"`)
-            if (query.like_near) temp.push(`nearby_places LIKE "%${query.like_near}%"`)
+            if (query.id) temp.push(`${TABLE.station}.station_id=${query.id}`)
+            if (query.like_name) temp.push(`${TABLE.station}.station_name LIKE "%${query.like_name}%"`)
+            if (query.like_near) temp.push(`${TABLE.station}.nearby_places LIKE "%${query.like_near}%"`)
             return temp
         }
     }
@@ -129,9 +129,10 @@ myApp.config("station_to_bus", database.station_to_bus, {
     id_name: "stations_to_buses", conditions: {
         get(query) {
             const temp = []
-            if (query.id) temp.push(`stations_to_buses=${query.id}`)
-            if (query.bus_id && query.bus_id !== "true") temp.push(`bus_id='${query.bus_id}'`)
-            if (query.station_id && query.station_id !== "true") temp.push(`station_id='${query.station_id}'`)
+            if (query.id) temp.push(`${TABLE.station_to_bus}.stations_to_buses=${query.id}`)
+            if (query.bus_id) temp.push(`${TABLE.station_to_bus}.bus_id='${query.bus_id}'`)
+            if (query.station_id) temp.push(`${TABLE.station_to_bus}.station_id='${query.station_id}'`)
+            if (query.like_station_name) temp.push(`${TABLE.station}.station_name LIKE "%${query.like_station_name}%"`)
             return temp
         },
         remove(query) {
@@ -139,6 +140,7 @@ myApp.config("station_to_bus", database.station_to_bus, {
             if (query.id) temp.push(`stations_to_buses=${query.id}`)
             if (query.bus_id && query.bus_id !== "true") temp.push(`bus_id='${query.bus_id}'`)
             if (query.station_id && query.station_id !== "true") temp.push(`station_id='${query.station_id}'`)
+            if (query.like_station_name) temp.push(`${TABLE.station}.station_name LIKE "%${query.like_station_name}%"`)
             return temp
         },
         edit(query) {
@@ -146,6 +148,7 @@ myApp.config("station_to_bus", database.station_to_bus, {
             if (query.id) temp.push(`stations_to_buses=${query.id}`)
             if (query.bus_id && query.bus_id !== "true") temp.push(`bus_id='${query.bus_id}'`)
             if (query.station_id && query.station_id !== "true") temp.push(`station_id='${query.station_id}'`)
+            if (query.like_station_name) temp.push(`${TABLE.station}.station_name LIKE "%${query.like_station_name}%"`)
             return temp
         }
     }
@@ -156,29 +159,29 @@ myApp.config("ticket", database.ticket, {
     id_name: "ticket_id", conditions: {
         get(query) {
             const temp = []
-            if (query.id) temp.push(`ticket_id=${query.id}`)
-            if (query.bus_id && query.bus_id) temp.push(`bus_id=${query.bus_id}`)
-            if (query.std_id && query.std_id) temp.push(`std_id=${query.std_id}`)
-            if (query.start_time) temp.push(`created_time>=${query.start_time}`)
-            if (query.end_time) temp.push(`created_time<=${query.end_time}`)
+            if (query.id) temp.push(`${TABLE.ticket}.ticket_id=${query.id}`)
+            if (query.bus_id && query.bus_id) temp.push(`${TABLE.ticket}.bus_id=${query.bus_id}`)
+            if (query.std_id && query.std_id) temp.push(`${TABLE.ticket}.std_id=${query.std_id}`)
+            if (query.start_time) temp.push(`${TABLE.ticket}.created_time>=${query.start_time}`)
+            if (query.end_time) temp.push(`${TABLE.ticket}.created_time<=${query.end_time}`)
             return temp
         },
         remove(query) {
             const temp = []
-            if (query.id) temp.push(`ticket_id=${query.id}`)
-            if (query.bus_id && query.bus_id) temp.push(`bus_id=${query.bus_id}`)
-            if (query.std_id && query.std_id) temp.push(`std_id=${query.std_id}`)
-            if (query.start_time) temp.push(`created_time>=${query.start_time}`)
-            if (query.end_time) temp.push(`created_time<=${query.end_time}`)
+            if (query.id) temp.push(`${TABLE.ticket}.ticket_id=${query.id}`)
+            if (query.bus_id && query.bus_id) temp.push(`${TABLE.ticket}.bus_id=${query.bus_id}`)
+            if (query.std_id && query.std_id) temp.push(`${TABLE.ticket}.std_id=${query.std_id}`)
+            if (query.start_time) temp.push(`${TABLE.ticket}.created_time>=${query.start_time}`)
+            if (query.end_time) temp.push(`${TABLE.ticket}.created_time<=${query.end_time}`)
             return temp
         },
         edit(query) {
             const temp = []
-            if (query.id) temp.push(`ticket_id=${query.id}`)
-            if (query.bus_id && query.bus_id) temp.push(`bus_id=${query.bus_id}`)
-            if (query.std_id && query.std_id) temp.push(`std_id=${query.std_id}`)
-            if (query.start_time) temp.push(`created_time>=${query.start_time}`)
-            if (query.end_time) temp.push(`created_time<=${query.end_time}`)
+            if (query.id) temp.push(`${TABLE.ticket}.ticket_id=${query.id}`)
+            if (query.bus_id && query.bus_id) temp.push(`${TABLE.ticket}.bus_id=${query.bus_id}`)
+            if (query.std_id && query.std_id) temp.push(`${TABLE.ticket}.std_id=${query.std_id}`)
+            if (query.start_time) temp.push(`${TABLE.ticket}.created_time>=${query.start_time}`)
+            if (query.end_time) temp.push(`${TABLE.ticket}.created_time<=${query.end_time}`)
             return temp
         }
     }
