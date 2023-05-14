@@ -133,22 +133,25 @@ myApp.config("station_to_bus", database.station_to_bus, {
             if (query.bus_id) temp.push(`${TABLE.station_to_bus}.bus_id='${query.bus_id}'`)
             if (query.station_id) temp.push(`${TABLE.station_to_bus}.station_id='${query.station_id}'`)
             if (query.like_station_name) temp.push(`${TABLE.station}.station_name LIKE "%${query.like_station_name}%"`)
+            if (query.like_nearby) temp.push(`${TABLE.station}.nearby_places LIKE "%${query.like_nearby}%"`)
             return temp
         },
         remove(query) {
             const temp = []
             if (query.id) temp.push(`stations_to_buses=${query.id}`)
             if (query.bus_id && query.bus_id !== "true") temp.push(`bus_id='${query.bus_id}'`)
-            if (query.station_id && query.station_id !== "true") temp.push(`station_id='${query.station_id}'`)
+            if (query.station_id) temp.push(`station_id='${query.station_id}'`)
             if (query.like_station_name) temp.push(`${TABLE.station}.station_name LIKE "%${query.like_station_name}%"`)
+            if (query.like_nearby) temp.push(`${TABLE.station}.nearby_places LIKE "%${query.like_nearby}%"`)
             return temp
         },
         edit(query) {
             const temp = []
             if (query.id) temp.push(`stations_to_buses=${query.id}`)
             if (query.bus_id && query.bus_id !== "true") temp.push(`bus_id='${query.bus_id}'`)
-            if (query.station_id && query.station_id !== "true") temp.push(`station_id='${query.station_id}'`)
+            if (query.station_id) temp.push(`station_id='${query.station_id}'`)
             if (query.like_station_name) temp.push(`${TABLE.station}.station_name LIKE "%${query.like_station_name}%"`)
+            if (query.like_nearby) temp.push(`${TABLE.station}.nearby_places LIKE "%${query.like_nearby}%"`)
             return temp
         }
     }
