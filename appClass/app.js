@@ -36,7 +36,6 @@ class App {
                         if (!err) res.status(200).send(query)
                         else res.status(404).send("err")
                     }
-
                     try {
                         req.query.page = Number(req.query.page)
                         req.query.count = Number(req.query.count)

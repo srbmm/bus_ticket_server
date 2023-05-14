@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 const md5 = require("md5");
-const {TABLE, TABLE_TO_PRIMARY_KEY} = require("./../constants/database")
+const {TABLE_TO_PRIMARY_KEY} = require("./../constants/database")
 class Database {
     constructor(host, username, password, database) {
         this.connection = mysql.createConnection({

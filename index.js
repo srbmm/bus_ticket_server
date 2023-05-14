@@ -2,7 +2,7 @@ const express = require('express')
 const App = require('./appClass/app')
 const cors = require('cors')
 const database = require('./database/connection')
-const {TABLE, CHOICES} = require('./constants/database');
+const {TABLE, CHOICES, TABLE_TO_PRIMARY_KEY} = require('./constants/database');
 const port = 3001
 const app = express()
 app.use(express.json())
@@ -194,13 +194,13 @@ myApp.config("ticket", database.ticket, {
 // for ticket adding board
 app.post("/board", (req, res) => {
     if (req.body.std_id && req.body.card_reader_id) {
-        database.customQuery(`SELECT * FROM card_readers, buses WHERE card_readers.card_reader_id=${req.body.card_reader_id};`,
-            (err, rows) => {
-                if (rows.length) {
-                    if (rows[0].isActive) {
-                        database.std.get((err, stdRow) => {
-                            if(stdRow.length) {
-                                if(stdRow[0].balance >= rows[0].ticket_price) {
+        database.card_reader(after = (err, rows) => {
+            if (rows.length) {
+                if (rows[0].isActive) {
+                    database.std.get((err, stdRow) => {
+                        if(stdRow.length) {
+                            if(stdRow[0].balance >= rows[0].ticket_price) {
+                                try {
                                     database.std.edit((err, resEdit) => {
                                         if (resEdit) {
                                             database.ticket.add((err, resAdd) => {
@@ -214,13 +214,16 @@ app.post("/board", (req, res) => {
                                             })
                                         } else res.status(400).send("error")
                                     }, {balance: stdRow[0].balance - rows[0].ticket_price}, `std_id=${stdRow[0].std_id}`)
-                                }else res.status(400).send("error")
-                            }
-                            else res.status(400).send("error")
-                        }, `std_id="${req.body.std_id}"`)
-                    }else res.status(400).send("error")
-                } else res.status(400).send("error")
-            })
+                                }catch (e){
+                                    res.status(400).send("error")
+                                }
+                            }else res.status(400).send("error")
+                        }
+                        else res.status(400).send("error")
+                    }, `std_id="${req.body.std_id}"`)
+                }else res.status(400).send("error")
+            } else res.status(400).send("error")
+        },condition=`${TABLE_TO_PRIMARY_KEY[TABLE.card_reader]}=${req.query.body}`, anotherTable=[TABLE.bus])
     } else {
         res.status(400).send("error")
     }
