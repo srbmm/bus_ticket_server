@@ -30,15 +30,16 @@ class Table {
 
     get(after, condition = [], choices = "*", page = 0, count = 10, order_by = "", reverse = "ASC", anotherTable=[]) {
         const connection = this.database.connection;
-        if (typeof condition !== "string") condition = condition.map(item => `${this.tableName}.${item}`).join(" AND ");
+        const tableName = this.tableName
+        if (typeof condition !== "string") condition = condition.map(item => `${tableName}.${item}`).join(" AND ");
         let innerJoin = "";
         if(anotherTable.length) {
-            innerJoin += anotherTable.map(name => `INNER JOIN ${name} ON ${this.tableName + "." + TABLE_TO_PRIMARY_KEY[name]}=${name + "." + TABLE_TO_PRIMARY_KEY[name]}`).join(" ")
+            innerJoin += anotherTable.map(name => `INNER JOIN ${name} ON ${tableName + "." + TABLE_TO_PRIMARY_KEY[name]}=${name + "." + TABLE_TO_PRIMARY_KEY[name]}`).join(" ")
             choices = "*"
         }
         if (page) {
-            connection.query(`SELECT COUNT(*) FROM ${this.tableName} ${innerJoin} ${condition ? " WHERE " + condition : ""}`, function (err, countAll) {
-                const SQL = `SELECT ${choices} FROM ${this.tableName} ${innerJoin} ${condition ? " WHERE " + condition : ""} ${order_by ?" ORDER BY " + order_by + " " + reverse.toUpperCase() : ""} LIMIT ${count} OFFSET ${(page-1)*count};`
+            connection.query(`SELECT COUNT(*) FROM ${tableName} ${innerJoin} ${condition ? " WHERE " + condition : ""}`, function (err, countAll) {
+                const SQL = `SELECT ${choices} FROM ${tableName} ${innerJoin} ${condition ? " WHERE " + condition : ""} ${order_by ?" ORDER BY " + order_by + " " + reverse.toUpperCase() : ""} LIMIT ${count} OFFSET ${(page-1)*count};`
                 console.log(SQL)
                 connection.query(SQL, function (err, result) {
                     after(err, result, countAll[0]['COUNT(*)'])
