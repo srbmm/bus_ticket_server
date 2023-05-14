@@ -194,7 +194,8 @@ myApp.config("ticket", database.ticket, {
 // for ticket adding board
 app.post("/board", (req, res) => {
     if (req.body.std_id && req.body.card_reader_id) {
-        database.card_reader.get(after = (err, rows) => {
+        database.card_reader.get((err, rows) => {
+            if (rows === undefined) rows = [];
             if (rows.length) {
                 if (rows[0].isActive) {
                     database.std.get((err, stdRow) => {
@@ -223,7 +224,7 @@ app.post("/board", (req, res) => {
                     }, `std_id="${req.body.std_id}"`)
                 }else res.status(400).send("error")
             } else res.status(400).send("error")
-        },condition=`${TABLE_TO_PRIMARY_KEY[TABLE.card_reader]}=${req.query.body}`, anotherTable=[TABLE.bus])
+        } ,[`${TABLE_TO_PRIMARY_KEY.card_readers}=${req.body.card_reader_id}`] ,"*" ,0 , 10,  "", "ASC", [TABLE.bus])
     } else {
         res.status(400).send("error")
     }
